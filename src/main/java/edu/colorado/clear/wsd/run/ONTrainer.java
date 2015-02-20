@@ -1,12 +1,9 @@
 package edu.colorado.clear.wsd.run;
 
-import com.clearnlp.dependency.DEPTree;
 import edu.colorado.clear.wsd.classifier.ONClassifier;
-import edu.colorado.clear.wsd.util.ClearNLPInterface;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  * Train an OntoNotes Verb Sense Classifier
@@ -91,31 +88,7 @@ public class ONTrainer
 
 	public static void main(String... args)
 	{
-		ONTrainer trainer = new ONTrainer(args);
-		trainer.testLoop();
-	}
-
-	public void testLoop()
-	{
-		try
-		{
-			ONClassifier classifier = new ONClassifier(new File(dataPath), false);
-			classifier.test(new File(corpusPath), new File(annPath));
-			String input = " ";
-			Scanner scan = new Scanner(System.in);
-			ClearNLPInterface cnlp = new ClearNLPInterface();
-			while (input.length() > 0)
-			{
-				System.out.print(":");
-				input = scan.nextLine();
-				DEPTree tree = cnlp.process(input);
-				classifier.classify(tree);
-				System.out.println(tree.toStringDEP());
-			}
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		new ONTrainer(args);
 	}
 
 	public void train(File corpusDir, File annFile, File outputDir) throws IOException
