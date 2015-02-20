@@ -1,8 +1,11 @@
 # ClearWSD
 Java verb sense disambiguation system for OntoNotes groupings and VerbNet classes
 
+To use the classifier, the following files are necessary for OntoNotes and VerbNet respectively:
 [OntoNotes WSD Data and Models](https://www.dropbox.com/s/szxgrfjegx7x375/ondata.zip?dl=0)  
 [VerbNet Classification Data and Models](https://www.dropbox.com/s/3z53gx0fnzy4l8t/vndata.zip?dl=0)  
+
+Additionally, [WordNet-3.0](http://wordnetcode.princeton.edu/3.0/WordNet-3.0.tar.gz) is required, and should be added to the corresponding data directory.
 
 #### usage for edu.colorado.clear.wsd.run.ONClassify and edu.colorado.clear.wsd.run.VNClassify
 -i <inputPath> : path to input file (one word per line, sentences separated by blank lines)  
