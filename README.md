@@ -26,7 +26,7 @@ the
 store  
 .	
 
-##### Example verbose ([ClearNLP](clearnlp.com)) output:
+##### Example verbose ([ClearNLP](http://www.clearnlp.com)) output:
 1	He	he	PRP	vnrole=theme	2	nsubj  
 2	ran	run	VBD	pb=run.02|vn=51.3.2-2-1	0	root  
 3	to	to	IN	_	2	prep  
