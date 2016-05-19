@@ -103,9 +103,40 @@ public class VNClassify
 		}
 	}
 
+	/**
+     	* Performs VSD on a given list of sentences.
+     	* @param sentences {"The man eats his food.","The dog barks."}
+     	* changes: kaustubhdhole
+     	*/
+    	public static  Map<String, Map<String, String>> VNClassifySentences(String dataPath, String[] sentences) 
+    	{
+        	Map<String, Map<String, String>> sentenceToSenses = null;
+        	try 
+        	{
+            		VerbNetClassifier classifier = new VerbNetClassifier(new File(dataPath), false);
+            		sentenceToSenses = classify(sentences, classifier);
+            		
+        	} catch (IOException e) 
+        	{
+            		System.err.println("Error loading classifier.");
+            		e.printStackTrace();
+        	}
+        	for(String sentence:sentenceToSenses.keySet())
+        	{
+            		Map<String,String> tokenMap = sentenceToSenses.get(sentence);
+            		LOG.info(sentence);
+            		for(String verb:tokenMap.keySet()){
+                		LOG.info(verb + "\t" + tokenMap.get(verb));
+            		}
+        	}
+        	return sentenceToSenses;
+    	}
+
 	public static void main(String... args)
 	{
-		new VNClassify(args);
+		String dataPath = "/home/../../ClearWSD-master/data/vndata";
+        	String[] sentences = {"The man eats Bombay food.","The mother speaks and the child smiles."};
+        	VNClassifySentences( dataPath, sentences);
 	}
 
 	public void classify(File inputFile, String outputName, VerbNetClassifier classifier)
@@ -165,6 +196,38 @@ public class VNClassify
 			e.printStackTrace();
 		}
 
+	}
+
+    	/**
+     	* Perform VSD on a given list of sentences
+     	* changes: kaustubhdhole
+     	*/
+    	public static Map<String, Map<String, String>> classify(String[] sentences, VerbNetClassifier classifier) {
+
+        	LOG.info("Loading ClearNLP");
+        	ClearNLPInterface cnlp = new ClearNLPInterface();
+
+        	String sense;
+        	Map<String, String> tokenToSense;
+        	Map<String, Map<String, String>> sentenceToSenses = new HashMap<String, Map<String, String>>();
+
+        	for (String sentence : sentences) 
+        	{
+            		tokenToSense = new HashMap<String, String>();
+            		DEPTree tree = cnlp.process(sentence);
+            		classifier.classify(tree);
+            		for (DEPNode node : tree) 
+            		{
+                		if (!node.hasHead())
+                			 continue;
+                		sense = node.getFeat(DEPLib.FEAT_VN);
+                		if (sense != null)
+                    			tokenToSense.put(node.form, sense);
+            		}
+            		sentenceToSenses.put(sentence, tokenToSense);
+        	}
+
+        	return sentenceToSenses;
 	}
 
 }
