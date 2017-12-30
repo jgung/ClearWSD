@@ -1,3 +1,5 @@
+ClearWSD has moved! Please navigate to its [new home](https://github.com/clearwsd/clearwsd).
+
 # ClearWSD
 Java verb sense disambiguation system for OntoNotes groupings and VerbNet classes
 
